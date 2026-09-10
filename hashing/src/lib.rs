@@ -1,0 +1,26 @@
+use std::collections::HashMap;
+
+pub fn mean(list: &[i32]) -> f64 {
+    list.iter().sum::<i32>() as f64 / list.len() as f64
+}
+
+pub fn median(list: &[i32]) -> i32 {
+    let mut sorted = list.to_vec();
+    sorted.sort();
+    let len = sorted.len();
+
+    if len % 2 == 1 {
+        sorted[len / 2]
+    } else {
+        (sorted[len / 2 - 1] + sorted[len / 2]) / 2
+    }
+}
+
+/// calculates the mode (the value that appears more often)
+pub fn mode(list: &[i32]) -> i32 {
+    let mut counts: HashMap<i32, i32> = HashMap::new();
+    for &n in list {
+        *counts.entry(n).or_insert(0) += 1;
+    }
+    *counts.iter().max_by_key(|(_key, count)| *count).unwrap().0
+}
